@@ -8,6 +8,21 @@ import requests                                 # For the TFL API invocations.
 import json                                     # For converting returned text from JSON to Python list.
 
 
+def remove_ssml_tags(parm_text:str) -> str:
+    """Remove the SSML tags from parm text. The tags are surrounded by <chevrons>."""
+
+    output_text = ''
+    inside_chevrons = False
+    for c in parm_text:
+        if c == '<':
+            inside_chevrons = True
+        elif c == '>':
+            inside_chevrons = False
+        elif not inside_chevrons:
+            output_text += c
+    return output_text
+
+
 def bus_arrivals(naptan_id: str):
     """Use TFL API to return a list of bus arrivals at the parm bus stop. Each item in the list is a tuple of
        important info about the arrival. Buses in the list are sorted, with soonest arrival first.
@@ -137,11 +152,11 @@ def lambda_handler(event, context):
     print('buses=' + str(buses))
     speech_output = buses_to_speech(buses)
     print('speech_output=' + speech_output)
+    card_output = remove_ssml_tags(speech_output)
+    print('card_output=' + card_output)
 
     card_title = 'London Buses'
-
-    # TODO Make the card_output be the speech output with SSML tags removed.
-    card_output = 'This is Hello World.'
+    print('card_title=' + card_title)
 
     return build_response(session_attributes={},
                           speech_response=build_speech_response(title=card_title,

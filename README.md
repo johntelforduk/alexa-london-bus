@@ -1,6 +1,7 @@
 # alexa-london-bus
-Minimal Amazon Alexa skill to read out arrival times of buses at hard coded list of bus stops.
+Minimal Amazon Alexa skill to read out arrival times of buses at hard coded bus stop.
 
+![Screenshot](https://github.com/johntelforduk/alexa-london-bus/blob/master/docs/screenshot.jpg)
 
 #### Installation
 

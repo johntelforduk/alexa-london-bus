@@ -98,3 +98,52 @@ def buses_to_speech(bus_list) -> str:
 
         speech += '</speak>'
         return speech
+
+
+def build_speech_response(title, ssml_output, plain_output):
+    """Build a speech JSON representation of the title, output text, and end of session."""
+
+    # In this app, the session always ends after a single response.
+    return {
+        'outputSpeech': {
+            'type': 'SSML',
+            'ssml': ssml_output
+        },
+        'card': {
+            'type': 'Simple',
+            'title': title,
+            'content': plain_output
+        },
+        'shouldEndSession': True
+    }
+
+
+def build_response(session_attributes, speech_response):
+    """Build the full response JSON from the speech response."""
+    return {
+        'version': '1.0',
+        'sessionAttributes': session_attributes,
+        'response': speech_response
+    }
+
+
+def lambda_handler(event, context):
+    """Function called by Lambda. Output JSON returned to Alexa."""
+    assert(event is not '')
+    assert(context is not '')
+    print('event.session.application.applicationId=' + event['session']['application']['applicationId'])
+
+    buses = bus_arrivals(naptan_id='490014129N')
+    print('buses=' + str(buses))
+    speech_output = buses_to_speech(buses)
+    print('speech_output=' + speech_output)
+
+    card_title = 'London Buses'
+
+    # TODO Make the card_output be the speech output with SSML tags removed.
+    card_output = 'This is Hello World.'
+
+    return build_response(session_attributes={},
+                          speech_response=build_speech_response(title=card_title,
+                                                                ssml_output=speech_output,
+                                                                plain_output=card_output))

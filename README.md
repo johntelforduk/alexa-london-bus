@@ -12,4 +12,4 @@ pip install requests
 #### Useful Links
 Alex Console - https://developer.amazon.com/alexa/console/ask
 
-Hello World - https://www.hackster.io/auctoris/simple-python-hello-world-with-alexa-4308e4
+Hello World Alexa skill - https://www.hackster.io/auctoris/simple-python-hello-world-with-alexa-4308e4

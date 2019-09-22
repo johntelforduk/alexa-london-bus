@@ -6,6 +6,25 @@ import unittest                                 # These tests based on, https://
 
 class TestBusStop(unittest.TestCase):
 
+    def test_remove_ssml_tags(self):
+
+        test_q1 = ''
+        test_a1 = test_q1
+
+        test_q2 = 'This is test with no SSML tags at all.'
+        test_a2 = test_q2
+
+        test_q3 = '<speak>Start and end tags only.</speak>'
+        test_a3 = 'Start and end tags only.'
+
+        test_q4 = '<speak>Nested <say-as interpret-as="digits">1</say-as> time.</speak>'
+        test_a4 = 'Nested 1 time.'
+
+        self.assertEqual(bus_stop.remove_ssml_tags(test_q1), test_a1)
+        self.assertEqual(bus_stop.remove_ssml_tags(test_q2), test_a2)
+        self.assertEqual(bus_stop.remove_ssml_tags(test_q3), test_a3)
+        self.assertEqual(bus_stop.remove_ssml_tags(test_q4), test_a4)
+
     def test_bus_arrivals(self):
         ba = bus_stop.bus_arrivals('490005183E')                                # Some test naptan ID.
 
@@ -46,11 +65,11 @@ class TestBusStop(unittest.TestCase):
 
         # 3 buses expected.
         test_q5 = [(226, 3, 'Balgonie Road', '397', 'Chingford'), (948, 15, 'Balgonie Road', '397', 'Chingford'), (1205, 20, 'Balgonie Road', '397', 'Chingford')]
-        test_a5 = '<speak>The next bus from Balgonie Road is the <say-as interpret-as="digits">397</say-as> towards Chingford due in 3 minutes. And then buses in 15 minutes, and 20 minutes from now.</speak>'
+        test_a5 = '<speak>The next bus from Balgonie Road is the <say-as interpret-as="digits">397</say-as> towards Chingford due in 3 minutes. Followed by buses in 15 minutes, and 20 minutes from now.</speak>'
 
         # 4 buses expected.
         test_q5 = [(226, 3, 'Balgonie Road', '397', 'Chingford'), (948, 15, 'Balgonie Road', '397', 'Chingford'), (1205, 20, 'Balgonie Road', '397', 'Chingford'), (1805, 30, 'Balgonie Road', '397', 'Chingford')]
-        test_a5 = '<speak>The next bus from Balgonie Road is the <say-as interpret-as="digits">397</say-as> towards Chingford due in 3 minutes. And then buses in 15 minutes, 20 minutes, and 30 minutes from now.</speak>'
+        test_a5 = '<speak>The next bus from Balgonie Road is the <say-as interpret-as="digits">397</say-as> towards Chingford due in 3 minutes. Followed by buses in 15 minutes, 20 minutes, and 30 minutes from now.</speak>'
 
         self.assertEqual(bus_stop.buses_to_speech(test_q1), test_a1)
         self.assertEqual(bus_stop.buses_to_speech(test_q2), test_a2)
